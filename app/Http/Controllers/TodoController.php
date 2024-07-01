@@ -44,7 +44,7 @@ class TodoController extends Controller
         
         $todo = Todo::findOrFail($id);
 
-        return view('todo.edit', compact("todo"));
+        return view('todos.edit', compact("todo"));
     }
 
     public function update(Request $request, $id): RedirectResponse{
@@ -57,6 +57,21 @@ class TodoController extends Controller
 
         $todo = Todo::FindOrFail($id);
 
+        $todo->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'completed' => $request->completed
+        ]);
+
         return redirect()->route('todo.index')->with(['success' => 'Data Berhasil Diupdate']);
-    } 
+    }
+
+    public function destroy($id):RedirectResponse
+    {
+        $todo = Todo::FindOrFail($id);
+
+        $todo->delete();
+
+        return redirect()->route('todo.index')->with(['success' => 'Data Berhasil Dihapus']);
+    }
 }
