@@ -10,11 +10,12 @@
 <body>
     <div class="d-flex flex-column gap-3 container my-3">
         <header class="d-flex flex-row">
-            <h1>Add Todo</h1>
+            <h1>Edit Todo</h1>
             <a href="{{route('todo.index')}}" class="btn btn-primary align-self-center ml-auto">Back</a>
         </header>
-        <form action="{{route('todo.store') }}" method="POST" class="gap-form border border-primary rounded m-4">
+        <form action="{{route('todo.update', $todo->id) }}" method="POST" class="gap-form border border-primary rounded m-4">
             @csrf
+            @method('PUT')
             <div class="form-group m-2">
                 <label>Title</label>
                 <input type="text" class="form-control w-25 @error('title') is-invalid  @enderror" name="title" placeholder="Masukan Title">
@@ -26,7 +27,8 @@
             </div>
             <div class="form-group m-2">
                 <label>Description</label>
-                <input type="text" class="form-control w-25 @error('description') is-invalid  @enderror" name="description" placeholder="Masukan Description">
+                <input type="text" class="form-control w-25 @error('description') is-invalid  @enderror" name="description" placeholder="Masukan Description"
+                value="{{ old('title', $todo->title) }}">
                 @error('description')
                     <div class="alert alert-danger mt-2 w-25">
                         {{$message}}
